@@ -40,6 +40,12 @@ export default appData = (state = initialState, action) => {
                 ...state,
                 loading: true
             }
+        case GET_SLOT_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                slots: []
+            }
 
         case GET_SLOT_SUCCESS:
             return {
@@ -84,7 +90,13 @@ export default appData = (state = initialState, action) => {
                 loading: false,
                 error: action.payload
             }
-
+        case GET_SLOT_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+                slots: []
+            }
         default:
             return state;
 
