@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "play-integrity-1rrc9knxkxufopk",
+  "private_key_id": "535025db2be480ca0047b5048a5888f801c1e6e6",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEuwIBADANBgkqhkiG9w0BAQEFAASCBKUwggShAgEAAoIBAQDM0wPR34Fp0grx\nVX8tbljHQeUBQCcnaPA1lUMUGLrGbYk+/QgasvRJIrTEleJL4+fyTgE5zdLIxJ6M\nxMwrZz+FOYNRlERuc20KrnK5bgh9QF1y6dn2uxTyTMskl3+8GDM0Ic6Pba33x+y7\nLJTt2hqEckOxUvo4Ekg0EdK9wxH7+FL4QCmEO3e0n2U4uhwvfvWRC7bltjff9Pya\nXZbnpYH3oEtahPEl6lxGXxikfcpnQJaMaqNdUt+n1Bn5vsbgvodHW+OY9VTf1Bmj\nj90EYYsR1LfDt7IxyPmVavc0eJFxfQQ2dZ31acArlIp6mPa6hw2OfRQfrSLG1gfF\nlLtSDk8hAgMBAAECgf8MzSNv+ogcFQSaEL3iGQNzcKrfaSMJU4Wv06RdnS4POMlb\nJnVbNdQOvhyOLM/37kaQ3k81Tafe5GsEYUhhbhKKQQ30C1A7lvs5r6176WSeb2dn\nxzXYNdkZS7NmlhFlsB2DJJnEXRaCZfxltmOYegkuPfX9HzKETqA0oOiK86YsGTxg\nNDGOOHPpFNi25KKcOE+GFXjCOTEK2llCNaj2Eu+17b7PFAQZeNhJkOReReTMR/Oe\nNYnUjiLG6mypnqwtE2RsHuDYvbtSrIaNUT9wxRoue4abN8eP25+GbCLWeRYwqfIa\nz/1ss9u6pCqiOpT6dx/Itx4DFUQWLwPcWxSriwECgYEA96VhASDsGrYAtz5f2mix\n+AX3jaOnoLQqRHUZBC4FpGrKZYlUnf2oSeS6hpMwF8uqj8G7bLZREi6whYow0nwq\n/ObhA1KfEq4m0NYj0KS8GdBvPeQQaT2ww3/NwXAbENLcdM7AyOk2zCLIRruvBtTG\nVKckRQCu/axw0+9ay7ps7+UCgYEA07vWDDyvOuYSkT6EqbkeQaTEO8bvYusUdlxV\n3/3hgP7+mgQDIFBy9jsRsx6pgXjKCGgctgWCWChQWy7Yl6iacmhGEMxtASsvtS/v\nQD9cwggKKHPBHHnlP/TioZqetgKeYxuTUUEebSDN71iWfJT/FOnqY3vJsmMzkyBK\n3y2mlo0CgYAXIDJ20IQ72lMmyYRZ+PzllGkRqP62Wxy3V9gGM+YC/JX59WEZf95/\nSATDHGuZTUOYORcvh7b6Y7HIRqdYgI/jHgxVKxn/vJOTXOvrR/bo0jYRKYL+0Ov4\n1a55KebdI1PC9Ku8F0sutPDO6ifmE2iR7ynL58xvk/LVV7y62aXioQKBgQCNbr5H\nRE4EuOSUMr+pI6fLT4VpLLSBTehIO9t9GPiGE078kEuKTVLNmZ10Gbo+avIBdZIg\nIEP2IU+z6PHzNEOewnpzBCqYCkH+9LsLHogWcAphBRlsrRvugeTU8BSuHcexCh14\nvFfXq38ELxeutlRBoxLXSzvqtgsgbwS0WakajQKBgHh+BmNWMajw/R3QmyI92KDz\n5U48DjFUPJy4WXWAg9gA8J2/s4f6yt+QfQaacWy5VjjCbsTPOP6bM0+3niTFijFx\nKP2lJDc6A8V5CSxx2t0AoYL/Svd22DE4G7OPjXFEprVUcE2NhpneMZ6QFsxB/wKU\nmgQDqKT5aTzYJjXzjk+S\n-----END PRIVATE KEY-----\n",
+  "client_email": "staffapp@play-integrity-1rrc9knxkxufopk.iam.gserviceaccount.com",
+  "client_id": "105318450557985984128",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/staffapp%40play-integrity-1rrc9knxkxufopk.iam.gserviceaccount.com"
+}
