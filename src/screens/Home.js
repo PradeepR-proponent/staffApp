@@ -55,7 +55,7 @@ function Home(props) {
                     <View style={styles.infoWrapper}>
                         <View style={styles.infoName}>
                             <Text style={styles.infoNameHeading}>Hi, {user.name}</Text>
-                            <Text style={styles.infoNameSubheading}>{user.city}</Text>
+                            <Text style={styles.infoNameSubheading}> <AntDesign name="enviroment" size={20} /> {user.city}</Text>
                         </View>
                         <View style={styles.infoImage}>
                             <Image source={{ uri: user.staff_profile }} style={styles.infoMainImage} />
