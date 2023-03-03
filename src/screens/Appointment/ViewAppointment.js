@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StatusBar, ImageBackground, StyleSheet, Image, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, StatusBar, Button, ImageBackground, StyleSheet, Image, ScrollView } from 'react-native';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { toggleTheme, removeUserToken } from '../../actions';
-import { Ionicons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Agenda } from 'react-native-calendars';
 import { FAB, Portal } from 'react-native-paper';
 import { useIsFocused } from '@react-navigation/native';
 import { getAppointment } from '../../actions/appoinmentsActions';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
+import { FlatList } from 'react-native-gesture-handler';
 
 
 
@@ -17,9 +20,13 @@ function SingleAgendaView({ data }) {
 
     return (
         <View style={styles.singleAgenda}>
+            <View style={styles.dateArea}>
+                <Text style={styles.dateText} >{moment(data.date).format('DD')}</Text>
+                <Text style={styles.dateText}>{moment(data.date).format('MMM')}</Text>
+            </View>
             <View style={styles.agendaData}>
                 <View style={styles.singleAgendaData}>
-                    <View style={styles.singlAgendaTextData}>
+                    <View >
                         <Text style={styles.agendaTime}>{data.start_time} - {data.end_time}</Text>
                         <Text style={styles.agendaName}>{data.client.name}</Text>
                         <Text style={styles.agendaServices}>{data.service[0].name}</Text>
@@ -33,22 +40,6 @@ function SingleAgendaView({ data }) {
     );
 }
 
-function SingleEmptyAgendaDateView(props) {
-    return (
-        <View style={styles.singleAgenda}>
-            <View style={styles.agendaData}>
-                <View style={styles.singleAgendaData}>
-                    <View style={styles.singlAgendaTextData}>
-                        <Text style={styles.agendaName}>No Appointment for this date </Text>
-                    </View>
-                </View>
-            </View>
-        </View>
-    );
-}
-
-
-
 function ViewAppointment(props) {
 
     const dispatch = useDispatch()
@@ -56,33 +47,34 @@ function ViewAppointment(props) {
     const { token, user } = useSelector(state => state.Auth)
 
     const isFocused = useIsFocused();
-    const [selectedDate, setSelectedDate] = useState(new Date());
     const [showAppointment, setShowAppointment] = useState([]);
-
+    const [show, setShow] = useState(false);
+    const [date, setDate] = useState(new Date());
 
     const [fabOpen, setFabOpen] = useState(false);
     const _onStateChange = () => setFabOpen(!fabOpen);
 
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate || date;
+        setShow(Platform.OS === 'ios');
+        setDate(currentDate);
+    };
+
     useEffect(() => {
         if (token !== null) {
-            dispatch(getAppointment(token, moment(selectedDate.dateString).format('Y-MM-DD')))
+            dispatch(getAppointment(token, moment(date).format('Y-MM-DD')))
         }
-    }, [selectedDate])
+    }, [date])
 
     useEffect(() => {
         if (appointment.data) {
-            if (selectedDate.dateString) {
-                setShowAppointment(appointment.data.filter((a) => a.date === moment(selectedDate.dateString).format('Y-MM-DD')))
-            } else {
-                setShowAppointment(appointment.data.filter((a) => a.date === moment(selectedDate).format('Y-MM-DD')))
-            }
+            setShowAppointment(appointment.data.filter((a) => a.date === moment(date).format('Y-MM-DD')))
         }
-    }, [appointment, selectedDate])
+    }, [appointment, date])
 
 
     return (
         <View style={styles.container}>
-            <Text style={[styles.dateheader,{backgroundColor:props.color.primaryColor}]} >{selectedDate?.dateString ? moment(selectedDate.dateString).format('DD MMMM') : moment(selectedDate).format('DD MMMM')}</Text>
             {isFocused && (<Portal>
                 <FAB.Group
                     open={fabOpen}
@@ -93,11 +85,11 @@ function ViewAppointment(props) {
                     actions={
                         user.role === 3 ? [
                             { icon: 'calendar-remove', label: 'Add Unavailability', onPress: () => { props.navigation.navigate('Appointment', { screen: "AddUnavailability" }) } },
-                            { icon: 'calendar-edit', label: 'Update/Delete Appointment', onPress: () => { props.navigation.navigate('Appointment', { screen: "UpdateAppointment" }) } },
+                            { icon: 'calendar-edit', label: 'Update Appointment', onPress: () => { props.navigation.navigate('Appointment', { screen: "UpdateAppointment" }) } },
                             { icon: 'plus', label: 'Add Appointment', onPress: () => { props.navigation.navigate('Book', { screen: "AddAppointment" }) } },
                         ] : [
                             { icon: 'plus', label: 'Add Appointment', onPress: () => { props.navigation.navigate('Book', { screen: "AddAppointment" }) } },
-                            { icon: 'calendar-edit', label: 'Update/Delete Appointment', onPress: () => { props.navigation.navigate('Appointment', { screen: "UpdateAppointment" }) } },
+                            { icon: 'calendar-edit', label: 'Update Appointment', onPress: () => { props.navigation.navigate('Appointment', { screen: "UpdateAppointment" }) } },
                         ]
                     }
                     onStateChange={_onStateChange}
@@ -108,117 +100,38 @@ function ViewAppointment(props) {
                     }}
                 />
             </Portal>)}
-
-            <Agenda
-                // The list of items that have to be displayed in agenda. If you want to render item as empty date
-                // the value of date key has to be an empty array []. If there exists no value for date key it is
-                // considered that the date in question is not yet loaded
-
-                items={{ [moment(selectedDate.dateString).format('Y-MM-DD')]: showAppointment, }}
-                // items={{ [moment(selectedDate.dateString).format('Y-M-D')]: appointment?.data }}
-                // Callback that gets called when items for a certain month should be loaded (month became visible)
-                loadItemsForMonth={(month) => {
-                }}
-                // Callback that fires when the calendar is opened or closed
-                // onCalendarToggled={(calendarOpened) =>setIsShowing(calendarOpened)}
-                // Callback that gets called on day press
-                onDayPress={(day) => {
-                    setSelectedDate(day)
-                }}
-                // Callback that gets called when day changes while scrolling agenda list
-                onDayChange={(day) => { console.log('day changed') }}
-                // Initially selected day
-                selected={selectedDate?.timestamp ? selectedDate.timestamp : selectedDate}
-
-                // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
-                minDate={'2020-06-10'}
-                // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
-                maxDate={'2067-06-30'}
-                showsVerticalScrollIndicator={true}
-                // enableSwipeMonths={true}
-                // renderHeader={date => <Text>hola</Text>   }
-                // Max amount of months allowed to scroll to the past. Default = 50
-                pastScrollRange={0}
-                // Max amount of months allowed to scroll to the future. Default = 50
-                futureScrollRange={1}
-                // Specify how each item should be rendered in agenda
-                renderItem={(item, firstItemInDay) => {
-                    return (<SingleAgendaView data={item} />);
-                }}
-                // Specify how each date should be rendered. day can be undefined if the item is not first in that day.
-                renderDay={(day, item) => {
-                    let month = selectedDate ? moment(selectedDate.timestamp).format('MMM') : moment(day).format('MMM');
-                    const days = selectedDate ? moment(selectedDate.timestamp).format('DD') : moment(day).format('MMM');
-                    return (
-                        <View style={styles.singleAgendaDate}>
-                            <View style={styles.agendaDateData}>
-                                <Text style={styles.agendaDateText}>{days}</Text>
-                                <Text style={styles.agendaDayText}>{month}</Text>   
-                            </View>
-                        </View>
-                    )
-                }}
-                // Specify how empty date content with no items should be rendered
-                renderEmptyDate={(day) => { return (<SingleEmptyAgendaDateView />); }}
-                // Specify how agenda knob should look like
-                renderKnob={() => { return (<Ionicons name="ios-arrow-down" size={20} color={"black"} />); }}
-                // Specify what should be rendered instead of ActivityIndicator
-                renderEmptyData={() => {
-                    return (
-                        <View style={styles.emptyData}>
-                            <Image style={styles.emptyImage} source={require('../../../assets/empty.png')} />
-                            <Text style={{ color: props.color.primaryColor }}>No appointment available</Text>
-                        </View>
-                    );
-                }}
-                // Specify your item comparison function for increased performance
-                rowHasChanged={(r1, r2) => {
-                    return r1.text !== r2.text
-                }}
-                // Hide knob button. Default = false
-                hideKnob={false}
-                // By default, agenda dates are marked if they have at least one item, but you can override this if needed
-
-                // If disabledByDefault={true} dates flagged as not disabled will be enabled. Default = false
-                disabledByDefault={false}
-                // If provided, a standard RefreshControl will be added for "Pull to Refresh" functionality. Make sure to also set the refreshing prop correctly.
-                onRefresh={() => console.log('refreshing...')}
-                // Set this true while waiting for new data from a refresh
-                refreshing={false}
-                // Add a custom RefreshControl component, used to provide pull-to-refresh functionality for the ScrollView.
-                refreshControl={null}
-                // Agenda theme
-                theme={{
-                    calendarBackground: props.color.primaryColor,
-                    textSectionTitleColor: '#333',
-                    textSectionTitleDisabledColor: '#d9e1e8',
-                    selectedDayBackgroundColor: '#ffffff',
-                    selectedDayTextColor: props.color.primaryColor,
-                    todayTextColor: props.color.secondaryColor,
-                    dayTextColor: '#333',
-                    textDisabledColor: '#333',
-                    dotColor: '#00adf5',
-                    selectedDotColor: '#ffffff',
-                    arrowColor: 'orange',
-                    disabledArrowColor: '#d9e1e8',
-                    monthTextColor: 'black',
-                    indicatorColor: 'blue',
-                    textDayFontWeight: '400',
-                    textMonthFontWeight: 'bold',
-                    textDayHeaderFontWeight: '300',
-                    agendaDayTextColor: '#000',
-                    agendaDayNumColor: 'green',
-                    agendaTodayColor: 'red',
-                    agendaKnobColor: 'blue',
-                    'stylesheet.calendar.header': {
-                        header: { flexDirection: 'row', justifyContent: 'center', paddingLeft: 0, paddingRight: 0, marginTop: 6, alignItems: 'center' }
-                    }
-                }}
-                // Agenda container style
-                style={{
-                }}
-            />
-
+            <View style={{ ...styles.datePickerContainer }}>
+                <Pressable onPress={() => setShow(true)} style={[styles.datepicker, { borderColor: props.color.primaryColor }]} >
+                    <AntDesign name='calendar' color={props.color.primaryColor} style={{ marginRight: 10 }} size={20} />
+                    <Text style={[styles.dateText, { color: props.color.primaryColor, }]}>
+                        {moment(date).format('DD MMM YYYY')}
+                    </Text>
+                </Pressable>
+                {show && (
+                    <DateTimePicker
+                        testID="dateTimePicker"
+                        value={date}
+                        mode={'date'}
+                        is24Hour={true}
+                        display="default"
+                        onChange={onChange}
+                    />
+                )}
+            </View>
+            <View style={{ ...styles.datePickerContainer }}>
+                <FlatList
+                    data={showAppointment}
+                    renderItem={({ item }) => <SingleAgendaView data={item} />}
+                    keyExtractor={(item, idx) => `${idx}`}
+                />
+            </View>
+            {
+                showAppointment.length === 0 &&
+                <View style={styles.agendaData}>
+                    <AntDesign name='calendar' style={{marginRight:10}} size={30} color="#FFC000" />
+                    <Text style={[styles.agendaName, { color: "#FFC000" }]}>No Appointment for this date </Text>
+                </View>
+            }
         </View>
     );
 }
@@ -246,13 +159,32 @@ const styles = StyleSheet.create({
     },
     scrollView: {
         borderWidth: 1
-
     },
-    dateheader: {
-        color: "#333",
-        textAlign: "center",
-        fontWeight:'bold',
-        fontSize:16
+    datePickerContainer: {
+        width: wp('100%'),
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    datepicker: {
+        borderWidth: 1,
+        width: wp('70%'),
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: 10,
+        marginTop: 20,
+        borderRadius: 20
+    },
+    dateArea: {
+        marginRight: 10,
+    },
+    dateText: {
+        fontSize: 16,
+        fontWeight: "bold",
+        color: "#FFC000"
     },
     singleAgenda: {
         backgroundColor: "#fff",
@@ -268,8 +200,11 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.22,
         shadowRadius: 2.22,
-
         elevation: 3,
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center"
 
     },
     singleAgendaDate: {
@@ -283,6 +218,11 @@ const styles = StyleSheet.create({
     },
     agendaData: {
         flex: 1,
+        display: 'flex',
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+
     },
     agendaDateText: {
         fontSize: 25,
