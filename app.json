@@ -2,7 +2,7 @@
   "expo": {
     "name": "staffapp",
     "slug": "staffapp",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -18,7 +18,9 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "buildNumber": "1.2",
+      "bundleIdentifier": "com.sonuhaircut.staffapp"
     },
     "android": {
       "adaptiveIcon": {

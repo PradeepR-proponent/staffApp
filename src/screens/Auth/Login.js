@@ -104,7 +104,7 @@ function Home(props) {
                     Sign In
                 </Button>
                 <Button style={[styles.forgetPass,{color:props.color.primaryColor}]} uppercase={false}  mode="text" onPress={handleNextPage}>
-                   <Text style={[{color:props.color.primaryColor}]} > Forgot Password? </Text>
+                   <Text style={[{color:props.color.primaryColor}]} >Forgot Password ?</Text>
                 </Button>
             </View>
         </ScrollView>

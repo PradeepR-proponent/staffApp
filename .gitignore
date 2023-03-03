@@ -1,6 +1,7 @@
 node_modules/
 .expo/
 dist/
+./AuthKey_GMCLG8DQ4T.p8
 npm-debug.*
 *.jks
 *.p8

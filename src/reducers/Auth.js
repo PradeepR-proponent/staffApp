@@ -68,7 +68,6 @@ export default Auth = (state = initialState, action) => {
                 loading: false,
             }
 
-
         case SAVE_TOKEN:
             return {
                 ...state, token: action.token

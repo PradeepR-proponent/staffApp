@@ -48,7 +48,8 @@ function Home(props) {
     }, [props])
 
     return (
-        <View>
+        <ScrollView>
+ <View>
             <StatusBar backgroundColor="white" barStyle={'dark-content'} />
             <View style={[styles.containerWrapper, { backgroundColor: props.color.primaryColor }]}>
                 <View style={[styles.topDataWrapper, { backgroundColor: props.color.primaryColor }]}>
@@ -83,20 +84,6 @@ function Home(props) {
                                 ))}
                             </ScrollView>
                         </View>)
-
-                        // (<View style={styles.pagerWrapper}>
-                        //     <Text style={styles.pagerHeading}>No Appointments</Text>
-                        //     <ScrollView
-                        //         horizontal={true}
-                        //         showsHorizontalScrollIndicator={false} style={styles.scrollWrapper}>
-                        //         <Pressable onPress={getApp} >
-                        //             <View style={styles.reload} >
-                        //                 <AntDesign name='reload1' size={20} style={{ marginRight: 10, color: "#ffffff" }} />
-                        //                 <Text style={[styles.scrollViewText, { color: "#ffffff" }]}>  Reload</Text>
-                        //             </View>
-                        //         </Pressable>
-                        //     </ScrollView>
-                        // </View>)
                     }
 
 
@@ -137,6 +124,8 @@ function Home(props) {
                 </View>
             </View>
         </View>
+        </ScrollView>
+       
     );
 }
 
