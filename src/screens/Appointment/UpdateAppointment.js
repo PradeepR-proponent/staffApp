@@ -13,6 +13,7 @@ import { baseURL } from '../../constants'
 import axios from 'axios';
 import { getAppointment } from '../../actions/appoinmentsActions';
 import { getSlots } from '../../actions/appDataActions';
+import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 
 
 UpdateAppointment = (props) => {
@@ -31,12 +32,11 @@ UpdateAppointment = (props) => {
     const [staffData, setStaffData] = useState({});
     const [serviceData, setServiceData] = useState([]);
 
+    const [modalDatepicke, setModalDatepicke] = useState(false);
+    const [updatedDate, setupdatedDate] = useState(new Date());
+
 
     //Updation modal states
-    const [showUpdationDatePicker, setShowUpdationDatePicker] = useState(false);
-    const [appointmentDate, setAppointmentDate] = useState(new Date());
-    const [appointmentStaff, setApointmentStaff] = useState('20');
-    const [appointmentService, setAppointmentService] = useState('2');
     const [appointmentStart, setAppointmentStart] = useState('');
     const [appointmentEnd, setAppointmentEnd] = useState('');
     const [status, setStatus] = useState('');
@@ -52,15 +52,21 @@ UpdateAppointment = (props) => {
         setAppointmentEnd(data.end_time)
         setStatus(data.status)
         setRemark(data.remark)
+        setupdatedDate(moment(data.date).toDate())
         dispatch(getSlots(token, moment(data.date).format("Y-M-D"), 15, data.staff.id))
         setModalVisible(!isModalVisible);
     };
-
 
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;
         setShow(Platform.OS === 'ios');
         setDate(currentDate);
+    };
+
+    const onChangeModal = (event, selectedDate) => {
+        const currentDate = selectedDate || date;
+        setModalDatepicke(Platform.OS === 'ios');
+        setupdatedDate(currentDate);
     };
 
     const updateAppointments = async (userToken, appointmentData) => {
@@ -92,13 +98,13 @@ UpdateAppointment = (props) => {
     const handleUpdate = () => {
         setLoading(true)
         setError("")
-
         const appointmentData = {
             "id": seletedService.appoinment,
             "status": status,
             "remark": remark,
             "start_time": appointmentStart,
-            "end_time": appointmentEnd
+            "end_time": appointmentEnd,
+            "date":  moment(updatedDate).format('Y-M-D')
         }
         updateAppointments(token, appointmentData)
         setRemark("")
@@ -118,10 +124,7 @@ UpdateAppointment = (props) => {
             {Object.keys(seletedService).length > 0 &&
                 <Modal isVisible={isModalVisible} style={styles.updateModalStyle}>
                     <View style={styles.updateModalView}>
-
                         <ScrollView>
-
-
                             <View style={[styles.appInfo]}>
                                 <View style={styles.clientDataContainer}>
                                     <View style={styles.clientImageContainer}>
@@ -137,9 +140,22 @@ UpdateAppointment = (props) => {
                                         <View style={styles.updationLabelContainer}>
                                             <Text style={styles.updationLabel}>Date:</Text>
                                         </View>
-                                        <View style={styles.updationData}>
-                                            <Text style={styles.updationLabel}>{seletedService.date}</Text>
-                                        </View>
+                                        {
+                                            modalDatepicke &&
+                                            <DateTimePicker
+                                                testID="dateTimePicker"
+                                                value={updatedDate}
+                                                mode={mode}
+                                                is24Hour={true}
+                                                display="default"
+                                                onChange={onChangeModal}
+                                            />
+                                        }
+
+                                        <Pressable onPress={() => setModalDatepicke(!modalDatepicke)} style={[styles.updateCalendar,{borderColor: props.color.secondaryColor}]} >
+                                            <Text style={[styles.updationLabel,{color: props.color.secondaryColor}]}>{moment(updatedDate).format('Y-M-D')}</Text>
+                                        </Pressable>
+
                                     </View>
                                     <View style={[styles.updationDataInnerContainer, { marginBottom: 20 }]}>
                                         <View style={styles.updationLabelContainer}>
@@ -318,7 +334,11 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps)(UpdateAppointment);
 
 const styles = StyleSheet.create({
-
+    updateCalendar: {
+        borderBottomWidth: 1,
+        paddingVertical: 7,
+        paddingHorizontal: 15,
+    },
     inputBox: {
         marginLeft: 10,
         borderWidth: 0.5,
@@ -483,7 +503,7 @@ const styles = StyleSheet.create({
         color: "#333"
     },
     updationData: {
-        flex: 2
+        flex: 2,
     },
     dataPicker: {
         color: "#333"
