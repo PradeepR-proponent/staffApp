@@ -65,7 +65,7 @@ function Home(props) {
                         </View>} */}
                         {
                             latestAppointment?.length > 0 && (<View style={styles.pagerWrapper}>
-                                <Text style={styles.pagerHeading}>Today's Appointment</Text>
+                                <Text style={styles.pagerHeading}>Today's Appointments</Text>
                                 <ScrollView
                                     horizontal={true}
                                     showsHorizontalScrollIndicator={false} style={styles.scrollWrapper}>

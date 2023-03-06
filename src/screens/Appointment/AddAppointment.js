@@ -191,6 +191,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         margin: 0,
         textAlign: "center",
+        fontWeight:"bold"
     },
     calendarView: {
         backgroundColor: "white"

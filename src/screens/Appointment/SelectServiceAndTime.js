@@ -197,6 +197,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginBottom: 10,
         textAlign: "center",
+        fontWeight:"bold"
     },
     nextBtn: {
         width: wp('90%'),
