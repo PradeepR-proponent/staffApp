@@ -25,6 +25,7 @@ export default function DrawerStack() {
                     backgroundColor: "#FFC000"
                 },
                 headerTintColor: "black",
+                header:(props)=><Header {...props} />
             }}
 
         >

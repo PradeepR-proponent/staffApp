@@ -15,13 +15,7 @@ function Home(props) {
     const dispatch = useDispatch()
     const { user, token, } = useSelector(state => state.Auth)
     const { appointmentCount, latestAppointment, error } = useSelector(state => state.AppointmentReducer)
-    const getApp = () => {
-        getAPP(token).then((res) => {
-            dispatch(loadAppointment(res.data))
-        }).catch((err) => {
-            ToastAndroid.show("No Appointment Available", ToastAndroid.SHORT);
-        })
-    }
+    const getApp = () => props.navigation.navigate("Appointment", { screen: 'ViewAppointment' })
 
     const showAlert = () =>
         Alert.alert(
@@ -176,10 +170,10 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         padding: 10,
-        borderWidth:1,
-        position:"absolute",
-        right:0,
-        top:-10,
+        borderWidth: 1,
+        position: "absolute",
+        right: 0,
+        top: -10,
     },
     infoMainImage: {
         width: wp('15%'),

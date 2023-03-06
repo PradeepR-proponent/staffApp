@@ -5,21 +5,21 @@ import { useSelector } from 'react-redux';
 import { AntDesign } from '@expo/vector-icons';
 import { getHeaderTitle } from '@react-navigation/elements';
 
-const Header = ({ navigation, previous, showMenu,options ,route }) => {
+const Header = ({ navigation, previous, showMenu, options, route }) => {
   const title = getHeaderTitle(options, route.name);
 
   const show = showMenu === undefined ? true : showMenu
-  const { user} = useSelector(state => state.Auth)
+  const { user } = useSelector(state => state.Auth)
 
   return (
-    <Appbar style={[styles.headerContainer, { backgroundColor: "#FFC000" }]}>
-      {previous ? <Appbar.BackAction onPress={navigation.goBack} /> : (show && <Appbar.Action icon="menu" onPress={() => navigation.toggleDrawer()} />)}
-      <Appbar.Content style={styles.content} title={title==="Home"?"":title} />
-      {user?.name && title==="Home" &&  <View style={styles.infoWrapper}>
+    <View style={[styles.headerContainer, { backgroundColor: "#FFC000" }]}>
+      {previous ? <Appbar.BackAction onPress={navigation.goBack} /> : (show && <Appbar.Action icon="menu" color='#333333' onPress={() => navigation.toggleDrawer()} />)}
+      <Text style={styles.headerHeading} > {title === "Home" ? "" : title} </Text>
+      {user?.name && title === "Home" && <View style={styles.infoWrapper}>
         <Text style={styles.infoNameHeading}>Hi, {user.name}</Text>
         <Text> <AntDesign name="enviroment" size={15} /> {user.city}</Text>
       </View>}
-    </Appbar>
+    </View>
   );
 }
 
@@ -27,8 +27,15 @@ const styles = StyleSheet.create({
   headerContainer: {
     height: 90,
     position: "relative",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center"
   },
-  
+  headerHeading: {
+    fontWeight: "bold",
+    fontSize: 18
+  },
   infoWrapper: {
     position: "absolute",
     right: 15,
