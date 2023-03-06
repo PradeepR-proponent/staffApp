@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, StatusBar, StyleSheet, Pressable, Linking, Image, ScrollView, ToastAndroid } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text, TouchableOpacity, StatusBar, StyleSheet, Pressable, Linking, Image, ScrollView, ToastAndroid ,Alert} from 'react-native';
 import { connect, useSelector, useDispatch } from 'react-redux';
-import { toggleTheme, removeUserToken, saveUserToken, LoadUser, loading } from '../actions';
+import { toggleTheme, removeUserToken, saveUserToken,} from '../actions';
 import { getAppointmentCount, getAppointment } from '../actions/appoinmentsActions';
 import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { CLEAR_ERRORS } from '../actions/actionTypes';
 import { getAPP } from '../services/authServices'
 import { loadAppointment } from '../actions/appoinmentsActions';
+import NetInfo from '@react-native-community/netinfo';
 
 
 
@@ -26,6 +27,18 @@ function Home(props) {
             ToastAndroid.show("No Appointment Available", ToastAndroid.SHORT);
         })
     }
+
+    const showAlert = () =>
+    Alert.alert(
+      'No Internet',
+      'Please check your internet connetction',
+    );
+
+    NetInfo.fetch().then((state) => {
+        if (!state.isConnected) {
+            showAlert()
+        }
+    });
 
     useEffect(() => {
         if (token !== null) {
@@ -49,83 +62,83 @@ function Home(props) {
 
     return (
         <ScrollView>
- <View>
-            <StatusBar backgroundColor="white" barStyle={'dark-content'} />
-            <View style={[styles.containerWrapper, { backgroundColor: props.color.primaryColor }]}>
-                <View style={[styles.topDataWrapper, { backgroundColor: props.color.primaryColor }]}>
-                    <View style={styles.infoWrapper}>
-                        <View style={styles.infoName}>
-                            <Text style={styles.infoNameHeading}>Hi, {user.name}</Text>
-                            <Text style={styles.infoNameSubheading}> <AntDesign name="enviroment" size={20} /> {user.city}</Text>
-                        </View>
-                        <View style={styles.infoImage}>
-                            <Image source={{ uri: user.staff_profile }} style={styles.infoMainImage} />
-                        </View>
-                    </View>
-                    {
-                        latestAppointment?.length > 0 && (<View style={styles.pagerWrapper}>
-                            <Text style={styles.pagerHeading}>Latest Appointment</Text>
-                            <ScrollView
-                                horizontal={true}
-                                showsHorizontalScrollIndicator={false} style={styles.scrollWrapper}>
-                                {latestAppointment?.map((data, idx) => (
-                                    <TouchableOpacity key={idx} style={[styles.scrollView, { borderColor: "#FFC000" }]}>
-                                        <Text style={styles.scrollViewHeading}>{data.client.name}</Text>
-                                        <View style={styles.scrollViewDetails}>
-                                            <Text style={styles.scrollViewText}>{data.service[0].name}</Text>
-                                        </View>
-                                        <View style={styles.scrollViewDetails}>
-                                            <Text style={{ ...styles.scrollViewText, fontSize: 10 }}>{data.start_time} to {data.end_time}</Text>
-                                            <Pressable onPress={() => Linking.openURL(`tel:${data.client.phone}`)} >
-                                                <Text style={[styles.scrollViewText, styles.callBtn, { backgroundColor: "#FFC000" }]}>Call</Text>
-                                            </Pressable>
-                                        </View>
-                                    </TouchableOpacity>
-                                ))}
-                            </ScrollView>
-                        </View>)
-                    }
-
-
-                </View>
-
-                <View style={styles.statWrapper}>
-
-                    <Pressable onPress={getApp} >
-                        <View style={styles.statItem}>
-                            <Ionicons name="alarm" size={60} color={props.color.secondaryColor} />
-                            <View style={styles.statData}>
-                                <Text style={styles.statDataName}>Today's Appointments</Text>
-                                <Text style={styles.statDataValue}>{appointmentCount?.daily_appointments}</Text>
+            <View>
+                <StatusBar backgroundColor="white" barStyle={'dark-content'} />
+                <View style={[styles.containerWrapper, { backgroundColor: props.color.primaryColor }]}>
+                    <View style={[styles.topDataWrapper, { backgroundColor: props.color.primaryColor }]}>
+                        <View style={styles.infoWrapper}>
+                            <View style={styles.infoName}>
+                                <Text style={styles.infoNameHeading}>Hi, {user.name}</Text>
+                                <Text style={styles.infoNameSubheading}> <AntDesign name="enviroment" size={20} /> {user.city}</Text>
+                            </View>
+                            <View style={styles.infoImage}>
+                                <Image source={{ uri: user.staff_profile }} style={styles.infoMainImage} />
                             </View>
                         </View>
-                    </Pressable>
-                    <View style={styles.statItem}>
-                        <Ionicons name="people" size={60} color={props.color.secondaryColor} />
-                        <View style={styles.statData}>
-                            <Text style={styles.statDataName}>This Month</Text>
-                            <Text style={styles.statDataValue}>{appointmentCount?.monthly_appointments}</Text>
-                        </View>
+                        {
+                            latestAppointment?.length > 0 && (<View style={styles.pagerWrapper}>
+                                <Text style={styles.pagerHeading}>Latest Appointment</Text>
+                                <ScrollView
+                                    horizontal={true}
+                                    showsHorizontalScrollIndicator={false} style={styles.scrollWrapper}>
+                                    {latestAppointment?.map((data, idx) => (
+                                        <TouchableOpacity key={idx} style={[styles.scrollView, { borderColor: "#FFC000" }]}>
+                                            <Text style={styles.scrollViewHeading}>{data.client.name}</Text>
+                                            <View style={styles.scrollViewDetails}>
+                                                <Text style={styles.scrollViewText}>{data.service[0].name}</Text>
+                                            </View>
+                                            <View style={styles.scrollViewDetails}>
+                                                <Text style={{ ...styles.scrollViewText, fontSize: 10 }}>{data.start_time} to {data.end_time}</Text>
+                                                <Pressable onPress={() => Linking.openURL(`tel:${data.client.phone}`)} >
+                                                    <Text style={[styles.scrollViewText, styles.callBtn, { backgroundColor: "#FFC000" }]}>Call</Text>
+                                                </Pressable>
+                                            </View>
+                                        </TouchableOpacity>
+                                    ))}
+                                </ScrollView>
+                            </View>)
+                        }
+
+
                     </View>
-                    <View style={styles.statItem}>
-                        <Ionicons name="md-analytics" size={60} color={props.color.secondaryColor} />
-                        <View style={styles.statData}>
-                            <Text style={styles.statDataName}>This Year</Text>
-                            <Text style={styles.statDataValue}>{appointmentCount?.yearly_appointments}</Text>
+
+                    <View style={styles.statWrapper}>
+
+                        <Pressable onPress={getApp} >
+                            <View style={styles.statItem}>
+                                <Ionicons name="alarm" size={60} color={props.color.secondaryColor} />
+                                <View style={styles.statData}>
+                                    <Text style={styles.statDataName}>Today's Appointments</Text>
+                                    <Text style={styles.statDataValue}>{appointmentCount?.daily_appointments}</Text>
+                                </View>
+                            </View>
+                        </Pressable>
+                        <View style={styles.statItem}>
+                            <Ionicons name="people" size={60} color={props.color.secondaryColor} />
+                            <View style={styles.statData}>
+                                <Text style={styles.statDataName}>This Month</Text>
+                                <Text style={styles.statDataValue}>{appointmentCount?.monthly_appointments}</Text>
+                            </View>
                         </View>
-                    </View>
-                    <View style={styles.statItem}>
-                        <Ionicons name="ios-ribbon" size={60} color={props.color.secondaryColor} />
-                        <View style={styles.statData}>
-                            <Text style={styles.statDataName}>All Time</Text>
-                            <Text style={styles.statDataValue}>{appointmentCount?.total_appointments}</Text>
+                        <View style={styles.statItem}>
+                            <Ionicons name="md-analytics" size={60} color={props.color.secondaryColor} />
+                            <View style={styles.statData}>
+                                <Text style={styles.statDataName}>This Year</Text>
+                                <Text style={styles.statDataValue}>{appointmentCount?.yearly_appointments}</Text>
+                            </View>
+                        </View>
+                        <View style={styles.statItem}>
+                            <Ionicons name="ios-ribbon" size={60} color={props.color.secondaryColor} />
+                            <View style={styles.statData}>
+                                <Text style={styles.statDataName}>All Time</Text>
+                                <Text style={styles.statDataValue}>{appointmentCount?.total_appointments}</Text>
+                            </View>
                         </View>
                     </View>
                 </View>
             </View>
-        </View>
         </ScrollView>
-       
+
     );
 }
 
@@ -218,7 +231,7 @@ const styles = StyleSheet.create({
     statWrapper: {
         flex: 1,
         padding: 10,
-        marginTop:20,
+        marginTop: 20,
         width: wp('100%'),
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
