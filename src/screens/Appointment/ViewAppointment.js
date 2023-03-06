@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StatusBar, Button, ImageBackground, StyleSheet, Image, ScrollView } from 'react-native';
+import { View, Text,  StyleSheet, Image, } from 'react-native';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import { toggleTheme, removeUserToken } from '../../actions';
+import { toggleTheme } from '../../actions';
 import { AntDesign } from '@expo/vector-icons';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { Agenda } from 'react-native-calendars';
 import { FAB, Portal } from 'react-native-paper';
 import { useIsFocused } from '@react-navigation/native';
 import { getAppointment } from '../../actions/appoinmentsActions';
@@ -24,17 +23,13 @@ function SingleAgendaView({ data }) {
                 <Text style={styles.dateText} >{moment(data.date).format('DD')}</Text>
                 <Text style={styles.dateText}>{moment(data.date).format('MMM')}</Text>
             </View>
-            <View style={styles.agendaData}>
-                <View style={styles.singleAgendaData}>
-                    <View >
-                        <Text style={styles.agendaTime}>{data.start_time} - {data.end_time}</Text>
-                        <Text style={styles.agendaName}>{data.client.name}</Text>
-                        <Text style={styles.agendaServices}>{data.service[0].name}</Text>
-                    </View>
-                    <View style={styles.singleAgendaImageData}>
-                        <Image source={{ uri: data.service[0].img }} style={styles.agendaImage} />
-                    </View>
-                </View>
+            <View >
+                <Text style={styles.agendaTime}>{data.start_time} - {data.end_time}</Text>
+                <Text style={styles.agendaName}>{data.client.name}</Text>
+                <Text style={styles.agendaServices}>{data.service[0].name}</Text>
+            </View>
+            <View >
+                <Image source={{ uri: data.service[0].img }} style={styles.agendaImage} />
             </View>
         </View>
     );
@@ -118,7 +113,7 @@ function ViewAppointment(props) {
                     />
                 )}
             </View>
-            <View style={{ ...styles.datePickerContainer }}>
+            <View style={{ ...styles.datePickerContainer, marginTop: 20 }}>
                 <FlatList
                     data={showAppointment}
                     renderItem={({ item }) => <SingleAgendaView data={item} />}
@@ -127,8 +122,8 @@ function ViewAppointment(props) {
             </View>
             {
                 showAppointment.length === 0 &&
-                <View style={styles.agendaData}>
-                    <AntDesign name='calendar' style={{marginRight:10}} size={30} color="#FFC000" />
+                <View style={styles.nodata}>
+                    <AntDesign name='calendar' style={{ marginRight: 10 }} size={30} color="#FFC000" />
                     <Text style={[styles.agendaName, { color: "#FFC000" }]}>No Appointment for this date </Text>
                 </View>
             }
@@ -160,6 +155,13 @@ const styles = StyleSheet.create({
     scrollView: {
         borderWidth: 1
     },
+    nodata:{
+        marginTop:50,
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+    },
     datePickerContainer: {
         width: wp('100%'),
         display: "flex",
@@ -180,7 +182,7 @@ const styles = StyleSheet.create({
     },
     dateArea: {
         marginRight: 10,
-    },
+        },
     dateText: {
         fontSize: 16,
         fontWeight: "bold",
@@ -203,41 +205,17 @@ const styles = StyleSheet.create({
         elevation: 3,
         display: "flex",
         flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center"
+        justifyContent: "space-between",
+        alignItems: "center",
 
     },
-    singleAgendaDate: {
-        justifyContent: "space-around",
-        padding: 10,
-        width: wp('15%')
-    },
-    agendaDateData: {
-        flex: 1,
-        alignItems: "center"
-    },
+   
     agendaData: {
         flex: 1,
         display: 'flex',
         flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-
-    },
-    agendaDateText: {
-        fontSize: 25,
-        textAlign: "center",
-        color: "#424242"
-    },
-    agendaDayText: {
-        fontSize: 14,
-        textAlign: "center",
-        color: "#424242"
-    },
-    singleAgendaData: {
-        flexDirection: "row",
         justifyContent: "space-between",
-
+        alignItems: "center",
     },
     agendaTime: {
         fontSize: 14,
@@ -250,9 +228,7 @@ const styles = StyleSheet.create({
     agendaServices: {
         fontSize: 14
     },
-    singleAgendaImageData: {
-
-    },
+  
     agendaImage: {
         width: 60,
         height: 60,
@@ -269,17 +245,8 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },
-    emptyData: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center"
-    },
-    emptyImage: {
-
-        width: wp('30%'),
-        height: hp('20%'),
-        resizeMode: "contain"
-    },
+   
+   
     fabGroup: {
         paddingBottom: 50
     },
