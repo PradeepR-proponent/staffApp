@@ -2,7 +2,7 @@
   "expo": {
     "name": "staffapp",
     "slug": "staffapp",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -19,7 +19,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "buildNumber": "1.2",
+      "buildNumber": "1.3",
       "bundleIdentifier": "com.sonuhaircut.staffapp"
     },
     "android": {
@@ -27,7 +27,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "versionCode": 3,
+      "versionCode": 4,
       "package": "com.sonuhaircut.staffapp"
     },
     "web": {

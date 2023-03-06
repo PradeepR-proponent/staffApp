@@ -152,9 +152,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    scrollView: {
-        borderWidth: 1
-    },
+  
     nodata:{
         marginTop:50,
         display: "flex",
