@@ -151,11 +151,9 @@ UpdateAppointment = (props) => {
                                                 onChange={onChangeModal}
                                             />
                                         }
-
                                         <Pressable onPress={() => setModalDatepicke(!modalDatepicke)} style={[styles.updateCalendar,{borderColor: props.color.secondaryColor}]} >
                                             <Text style={[styles.updationLabel,{color: props.color.secondaryColor}]}>{moment(updatedDate).format('Y-M-D')}</Text>
                                         </Pressable>
-
                                     </View>
                                     <View style={[styles.updationDataInnerContainer, { marginBottom: 20 }]}>
                                         <View style={styles.updationLabelContainer}>
@@ -163,7 +161,6 @@ UpdateAppointment = (props) => {
                                         </View>
                                         <View style={styles.updationData}>
                                             <Text style={styles.updationLabel}>{staffData.name}</Text>
-
                                         </View>
                                     </View>
                                     <View style={styles.updationDataInnerContainer}>
@@ -172,7 +169,6 @@ UpdateAppointment = (props) => {
                                         </View>
                                         <View style={styles.updationData}>
                                             <Text style={styles.updationLabel}>{serviceData[0].name}</Text>
-
                                         </View>
                                     </View>
                                     <View style={styles.updationDataInnerContainer}>
@@ -205,8 +201,6 @@ UpdateAppointment = (props) => {
                                             </Picker>
                                         </View>
                                     </View>
-
-
                                     <View style={styles.updationDataInnerContainer}>
                                         <View style={styles.updationLabelContainer}>
                                             <Text style={styles.updationLabel}>Status:</Text>
@@ -222,8 +216,6 @@ UpdateAppointment = (props) => {
                                             </Picker>
                                         </View>
                                     </View>
-                                    {/* need to implement  */}
-
                                     {status == "cancelled" && <View style={styles.updationDataInnerContainer}>
                                         <View style={styles.updationLabelContainer}>
                                             <Text style={styles.updationLabel}>Remark:</Text>
@@ -257,14 +249,11 @@ UpdateAppointment = (props) => {
                                 {
                                     error !== "" && <Text style={[styles.updationLabe, { color: "red" }]}>{error}</Text>
                                 }
-
                             </View>
                         </ScrollView>
-
-
                     </View>
                 </Modal>}
-
+                                
             <View style={{ ...styles.datePickerContainer }}>
                 <Button icon="calendar" mode="outlined" onPress={() => { setShow(true) }} labelStyle={[styles.datePickerLabelStyle, { color: "#333" }]} contentStyle={styles.datePickerBtnContent} style={[styles.datePickerBtnStyle, { borderColor: "#333" }]}>
                     {moment(date).format('DD MMM YYYY')}

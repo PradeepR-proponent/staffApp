@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { FontAwesome5 } from "@expo/vector-icons";
+import Header from '../Header';
 
 
 const Stack = createStackNavigator();
@@ -19,10 +20,11 @@ function HomeStack(props) {
       screenOptions={{
         headerTintColor: 'white',
         headerStyle: { backgroundColor: props.color.primaryColor },
+        header:(props)=><Header {...props} />
       }}>
       <Stack.Screen name="Home"
         component={HomeScreen}
-        options={{headerShown:false }}
+        options={{headerShown:true }}
       />
     </Stack.Navigator>
   );

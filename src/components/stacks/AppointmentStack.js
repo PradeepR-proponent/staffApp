@@ -11,6 +11,7 @@ import { connect } from "react-redux";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import Header from "../Header";
 
 const Stack = createStackNavigator();
 
@@ -41,46 +42,46 @@ function AppointmentStack(props) {
                 headerStyle: {
                     backgroundColor: props.color.primaryColor,
                 },
+                header:(props)=><Header {...props} />
             }}
         >
             <Stack.Screen
                 name="ViewAppointment"
                 component={ViewAppointment}
                 options={{
-                    headerShown:false,
-                    headerTitle: (propsTwo) => <LogoTitle {...propsTwo} />,
+                    headerShown:true,
                     title: "View Schedule",
                 }}
             />
             <Stack.Screen
                 name="AddAppointment"
                 component={AddAppointment}
-                options={{headerShown:false}}
+                options={{headerShown:true}}
             />
             <Stack.Screen
                 name="SelectServiceAndTime"
                 component={SelectServiceAndTime}
-                options={{headerShown:false}}
+                options={{headerShown:true}}
             />
             <Stack.Screen
                 name="ClientSelectionAddition"
                 component={ClientSelectionAddition}
-                options={{headerShown:false}}
+                options={{headerShown:true}}
             />
             <Stack.Screen
                 name="AppointmentSummary"
                 component={AppointmentSummary}
-                options={{headerShown:false}}
+                options={{headerShown:true}}
             />
             <Stack.Screen
                 name="UpdateAppointment"
                 component={UpdateAppointment}
-                options={{headerShown:false}}
+                options={{headerShown:true}}
             />
             <Stack.Screen
                 name="AddUnavailability"
                 component={AddUnavailability}
-                options={{headerShown:false}}
+                options={{headerShown:true}}
             />
         </Stack.Navigator>
     );

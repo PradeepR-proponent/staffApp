@@ -10,6 +10,7 @@ import { touchProps } from 'react-native-web/dist/cjs/modules/forwardedProps';
 import ViewProfile from '../../screens/Profile/ViewProfile';
 import AddUnavailability from '../../screens/Appointment/AddUnavailability';
 import UpdateAppointment from '../../screens/Appointment/UpdateAppointment';
+import Header from '../Header';
 
 const Drawer = createDrawerNavigator();
 
@@ -17,20 +18,20 @@ export default function DrawerStack() {
     return (
         <Drawer.Navigator
             initialRouteName=""
-            inactiveBackgroundColor="red"
+            // inactiveBackgroundColor="red"
             drawerContent={(props) => <DrawerContent {...props} />}
             screenOptions={{
                 headerStyle: {
                     backgroundColor: "#FFC000"
                 },
-                headerTintColor: "black"
+                headerTintColor: "black",
             }}
 
         >
             <Drawer.Screen name="Article" component={TabNavigator} 
             options={{
-                headerShown: true,
-                title: "",
+                headerShown: false,
+                title: "Home",
             }}
             />
             <Drawer.Screen name="Profile" component={ViewProfile}

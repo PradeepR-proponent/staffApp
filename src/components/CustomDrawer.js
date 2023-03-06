@@ -5,15 +5,11 @@ import {
   DrawerContentScrollView,
 } from '@react-navigation/drawer';
 import {
-  useTheme,
   Avatar,
   Title,
   Caption,
   Paragraph,
   Drawer,
-  Text,
-  TouchableRipple,
-  Switch,
 } from 'react-native-paper';
 import { MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
 import { removeUserToken } from '../actions';
@@ -43,7 +39,7 @@ export default function DrawerContent(props) {
             source={{
               uri: user.staff_profile
             }}
-            size={50}
+            size={100}
             style={{ marginTop: 20 }}
           />
           <Title style={styles.title}>{user.name}</Title>

@@ -12,6 +12,7 @@ import { View, Text, Pressable, StyleSheet } from "react-native";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { FontAwesome5 } from "@expo/vector-icons";
 import HomeStack from "./HomeStack";
+import Header from "../Header";
 
 const Stack = createStackNavigator();
 
@@ -42,28 +43,38 @@ function CreateAppintmentStack(props) {
                 headerStyle: {
                     backgroundColor: props.color.primaryColor,
                 },
+                header:(props)=><Header {...props} />
             }}
         >
 
             <Stack.Screen
                 name="AddAppointment"
                 component={AddAppointment}
-                options={{headerShown:false}}
+                options={{headerShown:true,
+                title:"Add Appointment"
+                
+                }}
             />
             <Stack.Screen
                 name="SelectServiceAndTime"
                 component={SelectServiceAndTime}
-                options={{headerShown:false}}
+                options={{headerShown:true,
+                title:""
+                }}
             />
             <Stack.Screen
                 name="ClientSelectionAddition"
                 component={ClientSelectionAddition}
-                options={{headerShown:false}}
+                options={{headerShown:true,
+                title:""
+                }}
             />
             <Stack.Screen
                 name="AppointmentSummary"
                 component={AppointmentSummary}
-                options={{ headerShown:false}}
+                options={{ headerShown:true,
+                title:""
+                }}
             />
 
         </Stack.Navigator>

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { View, Text, TouchableOpacity, StatusBar, StyleSheet, Pressable, Linking, Image, ScrollView, ToastAndroid ,Alert} from 'react-native';
+import { View, Text, TouchableOpacity, StatusBar, StyleSheet, Pressable, Linking, Image, ScrollView, ToastAndroid, Alert } from 'react-native';
 import { connect, useSelector, useDispatch } from 'react-redux';
-import { toggleTheme, removeUserToken, saveUserToken,} from '../actions';
+import { toggleTheme, removeUserToken, saveUserToken, } from '../actions';
 import { getAppointmentCount, getAppointment } from '../actions/appoinmentsActions';
 import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -10,16 +10,11 @@ import { getAPP } from '../services/authServices'
 import { loadAppointment } from '../actions/appoinmentsActions';
 import NetInfo from '@react-native-community/netinfo';
 
-
-
-
-
 function Home(props) {
 
     const dispatch = useDispatch()
     const { user, token, } = useSelector(state => state.Auth)
     const { appointmentCount, latestAppointment, error } = useSelector(state => state.AppointmentReducer)
-
     const getApp = () => {
         getAPP(token).then((res) => {
             dispatch(loadAppointment(res.data))
@@ -29,10 +24,10 @@ function Home(props) {
     }
 
     const showAlert = () =>
-    Alert.alert(
-      'No Internet',
-      'Please check your internet connetction',
-    );
+        Alert.alert(
+            'No Internet',
+            'Please check your internet connetction',
+        );
 
     NetInfo.fetch().then((state) => {
         if (!state.isConnected) {
@@ -55,18 +50,17 @@ function Home(props) {
         }
     }, [error])
 
-
     useEffect(() => {
         getApp()
     }, [props])
 
     return (
         <ScrollView>
-            <View>
+            <View style={styles.homeViewArea} >
                 <StatusBar backgroundColor="white" barStyle={'dark-content'} />
                 <View style={[styles.containerWrapper, { backgroundColor: props.color.primaryColor }]}>
                     <View style={[styles.topDataWrapper, { backgroundColor: props.color.primaryColor }]}>
-                        <View style={styles.infoWrapper}>
+                        {/* {user?.name && <View style={styles.infoWrapper}>
                             <View style={styles.infoName}>
                                 <Text style={styles.infoNameHeading}>Hi, {user.name}</Text>
                                 <Text style={styles.infoNameSubheading}> <AntDesign name="enviroment" size={20} /> {user.city}</Text>
@@ -74,10 +68,10 @@ function Home(props) {
                             <View style={styles.infoImage}>
                                 <Image source={{ uri: user.staff_profile }} style={styles.infoMainImage} />
                             </View>
-                        </View>
+                        </View>} */}
                         {
                             latestAppointment?.length > 0 && (<View style={styles.pagerWrapper}>
-                                <Text style={styles.pagerHeading}>Latest Appointment</Text>
+                                <Text style={styles.pagerHeading}>Today's Appointment</Text>
                                 <ScrollView
                                     horizontal={true}
                                     showsHorizontalScrollIndicator={false} style={styles.scrollWrapper}>
@@ -85,10 +79,10 @@ function Home(props) {
                                         <TouchableOpacity key={idx} style={[styles.scrollView, { borderColor: "#FFC000" }]}>
                                             <Text style={styles.scrollViewHeading}>{data.client.name}</Text>
                                             <View style={styles.scrollViewDetails}>
-                                                <Text style={styles.scrollViewText}>{data.service[0].name}</Text>
+                                                <Text >{data.service[0].name}</Text>
                                             </View>
                                             <View style={styles.scrollViewDetails}>
-                                                <Text style={{ ...styles.scrollViewText, fontSize: 10 }}>{data.start_time} to {data.end_time}</Text>
+                                                <Text style={{ fontSize: 10 }}>{data.start_time} to {data.end_time}</Text>
                                                 <Pressable onPress={() => Linking.openURL(`tel:${data.client.phone}`)} >
                                                     <Text style={[styles.scrollViewText, styles.callBtn, { backgroundColor: "#FFC000" }]}>Call</Text>
                                                 </Pressable>
@@ -167,7 +161,6 @@ const styles = StyleSheet.create({
         width: wp('100'),
         backgroundColor: "#78909c"
     },
-
     reload: {
         display: "flex",
         flexDirection: "row",
@@ -182,7 +175,11 @@ const styles = StyleSheet.create({
     infoWrapper: {
         flexDirection: "row",
         justifyContent: "space-between",
-        padding: 10
+        padding: 10,
+        borderWidth:1,
+        position:"absolute",
+        right:0,
+        top:-10,
     },
     infoMainImage: {
         width: wp('15%'),
@@ -226,7 +223,8 @@ const styles = StyleSheet.create({
         marginHorizontal: 5
     },
     scrollViewHeading: {
-        fontSize: 18
+        fontSize: 18,
+        marginBottom: 5
     },
     statWrapper: {
         flex: 1,
