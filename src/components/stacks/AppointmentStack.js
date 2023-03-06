@@ -56,32 +56,38 @@ function AppointmentStack(props) {
             <Stack.Screen
                 name="AddAppointment"
                 component={AddAppointment}
-                options={{headerShown:true}}
+                options={{headerShown:true,
+                title:""}}
             />
             <Stack.Screen
                 name="SelectServiceAndTime"
                 component={SelectServiceAndTime}
-                options={{headerShown:true}}
+                options={{headerShown:true,
+                title:""}}
             />
             <Stack.Screen
                 name="ClientSelectionAddition"
                 component={ClientSelectionAddition}
-                options={{headerShown:true}}
+                options={{headerShown:true,
+                title:""}}
             />
             <Stack.Screen
                 name="AppointmentSummary"
                 component={AppointmentSummary}
-                options={{headerShown:true}}
+                options={{headerShown:true,
+                title:""}}
             />
             <Stack.Screen
                 name="UpdateAppointment"
                 component={UpdateAppointment}
-                options={{headerShown:true}}
+                options={{headerShown:true,
+                title:"Update Appointment"}}
             />
             <Stack.Screen
                 name="AddUnavailability"
                 component={AddUnavailability}
-                options={{headerShown:true}}
+                options={{headerShown:true,
+                title:"Add Unavailability"}}
             />
         </Stack.Navigator>
     );
