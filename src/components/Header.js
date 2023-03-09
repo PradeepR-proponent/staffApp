@@ -25,12 +25,11 @@ const Header = ({ navigation, previous, showMenu, options, route }) => {
 
 const styles = StyleSheet.create({
   headerContainer: {
-    height: 90,
     position: "relative",
     display: "flex",
     flexDirection: "row",
     justifyContent: "flex-start",
-    alignItems: "center"
+    alignItems: "center",
   },
   headerHeading: {
     fontWeight: "bold",

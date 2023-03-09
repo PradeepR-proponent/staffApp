@@ -44,9 +44,6 @@ function Home(props) {
         }
     }, [error])
 
-    useEffect(() => {
-        getApp()
-    }, [props])
 
     return (
         <ScrollView>
@@ -88,9 +85,15 @@ function Home(props) {
                         }
 
 
+                        {
+                            latestAppointment?.length === 0 && (<View style={[styles.pagerWrapper,]}>
+                                <Text style={styles.pagerHeading}> <AntDesign name='calendar' color={"#333333"} style={{ marginRight: 10 }} size={30} />  No Appointments for Today</Text>
+                            </View>)
+                        }
+
                     </View>
 
-                    <View style={styles.statWrapper}>
+                    <View style={[styles.statWrapper]}>
 
                         <Pressable onPress={getApp} >
                             <View style={styles.statItem}>
