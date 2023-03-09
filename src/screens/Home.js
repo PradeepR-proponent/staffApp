@@ -9,6 +9,8 @@ import { CLEAR_ERRORS } from '../actions/actionTypes';
 import { getAPP } from '../services/authServices'
 import { loadAppointment } from '../actions/appoinmentsActions';
 import NetInfo from '@react-native-community/netinfo';
+import icon from '../../assets/ap3.png'
+
 
 function Home(props) {
 
@@ -83,18 +85,14 @@ function Home(props) {
                                 </ScrollView>
                             </View>)
                         }
-
-
                         {
                             latestAppointment?.length === 0 && (<View style={[styles.pagerWrapper,]}>
+                                {/* <Image source={icon} style={{width:50,height:50}} /> */}
                                 <Text style={styles.pagerHeading}> <AntDesign name='calendar' color={"#333333"} style={{ marginRight: 10 }} size={30} />  No Appointments for Today</Text>
                             </View>)
                         }
-
                     </View>
-
                     <View style={[styles.statWrapper]}>
-
                         <Pressable onPress={getApp} >
                             <View style={styles.statItem}>
                                 <Ionicons name="alarm" size={60} color={props.color.secondaryColor} />
