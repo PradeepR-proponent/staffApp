@@ -2,7 +2,7 @@
   "expo": {
     "name": "staffapp",
     "slug": "staffapp",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -27,7 +27,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "versionCode": 4,
+      "versionCode": 5,
       "package": "com.sonuhaircut.staffapp"
     },
     "web": {
