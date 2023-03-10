@@ -22,7 +22,7 @@ export default function DrawerContent(props) {
 
 
   const { user } = useSelector(state => state.Auth)
-  const { appointment } = useSelector(state => state.AppointmentReducer)
+  const { appointmentCount } = useSelector(state => state.AppointmentReducer)
 
   const dispatch = useDispatch()
 
@@ -47,13 +47,13 @@ export default function DrawerContent(props) {
           <View style={styles.row}>
             <View style={styles.section}>
               <Paragraph style={[styles.paragraph, styles.caption]}>
-                {appointment?.total_appointments}
+                {appointmentCount?.total_appointments}
               </Paragraph>
               <Caption style={styles.caption}>Bookings</Caption>
             </View>
             <View style={styles.section}>
               <Paragraph style={[styles.paragraph, styles.caption]}>
-                {appointment?.daily_appointments}
+              {appointmentCount?.daily_appointments}
               </Paragraph>
               <Caption style={styles.caption}>Today's Booking</Caption>
             </View>
