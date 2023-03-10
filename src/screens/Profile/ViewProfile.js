@@ -10,6 +10,7 @@ import {
     Image, ToastAndroid
 } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
+import { FontAwesome5 } from "react-native-vector-icons";
 import * as ImagePicker from 'expo-image-picker';
 import Spinner from 'react-native-loading-spinner-overlay';
 import * as FileSystem from 'expo-file-system';
@@ -148,15 +149,17 @@ function Profile(props) {
                     textStyle={styles.spinnerTextStyle}
                 />
                 <View style={[styles.headerBacground, { backgroundColor: props.color.primaryColor }]}>
-                    <View style={styles.picoutline}>
-                        <Image
-                            resizeMode="cover"
-                            style={styles.pic}
-                            source={image ? image : { uri: user.staff_profile }}
-                        />
-                    </View>
-                    <Pressable onPressIn={pickImage}>
-                        <Text style={styles.userName}>Edit Photo</Text>
+                    <Pressable onPressIn={pickImage}  >
+                        <View style={styles.picoutline}>
+                            <Image
+                                resizeMode="cover"
+                                style={styles.pic}
+                                source={image ? image : { uri: user.staff_profile }}
+                            />
+                        </View>
+                    </Pressable>
+                    <Pressable onPressIn={pickImage} style={styles.editIcon}>
+                        <FontAwesome5 name="user-edit" style={styles.camera} />
                     </Pressable>
                 </View>
                 <View style={styles.MasterView}>
@@ -262,6 +265,19 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#ffffff",
     },
+    camera: {
+        position: "absolute",
+        top: -40,
+        right: -60,
+        fontSize: 20,
+        color: '#FFD700',
+        borderRadius: 30,
+        padding: 8,
+        backgroundColor: "#fff",
+    },
+    editIcon: {
+        position: "relative",
+    },
     inputWrapper: {
         flex: 3
     }, gender: {
@@ -288,13 +304,13 @@ const styles = StyleSheet.create({
         height: "auto",
     },
     pic: {
-        height: 100,
-        width: 100,
+        height: 120,
+        width: 120,
         borderRadius: 100
     },
     picoutline: {
-        height: 110,
-        width: 110,
+        height: 130,
+        width: 130,
         backgroundColor: "#ffffff",
         borderRadius: 110,
         padding: 5,
@@ -305,7 +321,9 @@ const styles = StyleSheet.create({
         elevation: 3,
         marginLeft: 'auto',
         marginRight: 'auto',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        position: "relative",
+
     },
     userName: {
         fontSize: 16,
@@ -375,7 +393,11 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     headerBacground: {
-        padding: 20
+        padding: 20,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center"
     },
     spinnerTextStyle: {
         color: '#FFF'
