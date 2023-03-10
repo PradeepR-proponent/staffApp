@@ -11,13 +11,13 @@ import { loadAppointment } from '../actions/appoinmentsActions';
 import NetInfo from '@react-native-community/netinfo';
 import icon from '../../assets/ap3.png'
 
-
 function Home(props) {
 
     const dispatch = useDispatch()
-    const { user, token, } = useSelector(state => state.Auth)
-    const { appointmentCount, latestAppointment, error } = useSelector(state => state.AppointmentReducer)
-    const getApp = () => props.navigation.navigate("Appointment", { screen: 'ViewAppointment' })
+    const { token, } = useSelector(state => state.Auth)
+    const { appointmentCount,latestAppointment, error } = useSelector(state => state.AppointmentReducer)
+
+    const Navigate = () => props.navigation.navigate("Appointment", { screen: 'ViewAppointment' })
 
     const showAlert = () =>
         Alert.alert(
@@ -34,7 +34,7 @@ function Home(props) {
     useEffect(() => {
         if (token !== null) {
             dispatch(saveUserToken(token))
-            dispatch(getAppointment(token))
+            dispatch(getAppointment(token,))
             dispatch(getAppointmentCount(token))
         }
     }, [token])
@@ -46,6 +46,13 @@ function Home(props) {
         }
     }, [error])
 
+
+    useEffect(() => {
+        getAPP(token).then((res) => {
+            dispatch(loadAppointment(res.data))
+        }).catch((err) => {
+        })
+    }, [])
 
     return (
         <ScrollView>
@@ -93,7 +100,7 @@ function Home(props) {
                         }
                     </View>
                     <View style={[styles.statWrapper]}>
-                        <Pressable onPress={getApp} >
+                        <Pressable onPress={Navigate} >
                             <View style={styles.statItem}>
                                 <Ionicons name="alarm" size={60} color={props.color.secondaryColor} />
                                 <View style={styles.statData}>
