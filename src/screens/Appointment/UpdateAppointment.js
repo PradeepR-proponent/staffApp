@@ -110,11 +110,11 @@ UpdateAppointment = (props) => {
         setRemark("")
     }
 
-    useEffect(() => {
-        if (token !== null) {
-            dispatch(getAppointment(token, moment(date).format('Y-M-D')))
-        }
-    }, [date])
+    // useEffect(() => {
+    //     if (token !== null) {
+    //         dispatch(getAppointment(token, moment(date).format('Y-M-D')))
+    //     }
+    // }, [date])
 
     return (
         <View style={styles.container}>
@@ -295,7 +295,9 @@ UpdateAppointment = (props) => {
                 <Headline style={styles.appointmentHeadline}>Available Appointments</Headline>
                 <ScrollView contentContainerStyle={styles.appointmentScrollView} horizontal={false} >
                     {
-                        appointment?.data?.map((data, idx) => (
+                        appointment?.data?.map((data, idx) => {
+                            if(data.status==="complete")return null
+                           return (
                             <TouchableNativeFeedback key={idx} style={styles.singleAppointment} onPress={() => toggleModal(data)}>
                                 <View style={styles.singleAppImageContainer}>
                                     <Image source={{ uri: data.service[0].img }} style={styles.singleAppImage} />
@@ -305,7 +307,7 @@ UpdateAppointment = (props) => {
                                     <Text style={styles.singleAppDetailsTime}>{data.start_time} - {data.end_time}</Text>
                                 </View>
                             </TouchableNativeFeedback>
-                        ))
+                        )})
                     }
                 </ScrollView>
             </View>
