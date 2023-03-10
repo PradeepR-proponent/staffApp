@@ -151,7 +151,7 @@ function AddAppointment(props) {
                         }
                     </Picker>
                     <View style={styles.additionBtn}>
-                        <TouchableOpacity onPress={() => { setAddClient(!addClient) }} style={{ backgroundColor: "black", width: 40, height: 40, borderRadius: 40 / 2 }}>
+                        <TouchableOpacity onPress={() => { setAddclient(!addClient) }} style={{ backgroundColor: "black", width: 40, height: 40, borderRadius: 40 / 2 }}>
                             <Text style={{ fontSize: 30, textAlign: "center", color: "white" }}>+</Text>
                         </TouchableOpacity>
                     </View>
@@ -287,7 +287,7 @@ function AddAppointment(props) {
                                     <Button icon="check-all" mode="contained" onPress={handleAddClient} contentStyle={{}} style={{ backgroundColor: props.color.secondaryColor }}>
                                         Add
                                     </Button>
-                                    <Button icon="close-circle-outline" mode="contained" onPress={() => { setAddClient(!addClient) }} contentStyle={{}} style={{ backgroundColor: props.color.secondaryColor }}>
+                                    <Button icon="close-circle-outline" mode="contained" onPress={() => { setAddclient(!addClient) }} contentStyle={{}} style={{ backgroundColor: props.color.secondaryColor }}>
                                         Close
                                     </Button>
                                 </View>}

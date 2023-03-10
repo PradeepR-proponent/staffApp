@@ -21,7 +21,7 @@ function SingleAgendaView({ data }) {
         <View style={styles.singleAgenda}>
             <View style={styles.dateArea}>
                 <Text style={styles.dateText} >{moment(data.date).format('DD')}</Text>
-                <Text style={styles.dateText}>{moment(data.date).format('MMM')}</Text>
+                <Text style={styles.dateText}>{moment(data.date).format('MMMM')}</Text>
             </View>
             <View >
                 <Text style={styles.agendaTime}>{data.start_time} - {data.end_time}</Text>
