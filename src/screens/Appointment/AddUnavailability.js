@@ -43,11 +43,9 @@ function AddUnavailability(props) {
     const [holiday, setAddholiday] = useState(false);
     const [error, setError] = useState('');
 
-
     const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate || date;
         setShow(Platform.OS === 'ios');
-        setDate(currentDate);
+        setDate(selectedDate);
     };
 
     const updateAppointments = async (userToken, holidayData) => {
@@ -81,7 +79,12 @@ function AddUnavailability(props) {
         }
     }
 
+
     const addAppointment = () => {
+        if (moment(date).format("Y-M-D") === moment(new Date()).format("Y-M-D")) {
+            ToastAndroid.show("You can't be off today", ToastAndroid.SHORT)
+            return
+        }
         setLoading(true)
         setError("")
         updateAppointments(token, { staff_id: user.id, date: moment(date).format("Y-M-D"), remark })
@@ -138,8 +141,10 @@ function AddUnavailability(props) {
                                 is24Hour={true}
                                 display="default"
                                 onChange={onChange}
+                                minimumDate={new Date()}
                             />
                         )}
+
                     </View>
                     <Text style={styles.updationLabel}>Remark :</Text>
                     <View >
