@@ -113,7 +113,7 @@ function ViewAppointment(props) {
                     />
                 )}
             </View>
-            <View style={{ ...styles.datePickerContainer, marginTop: 20 }}>
+            <View style={{ ...styles.datePickerContainer, marginTop: 20,marginBottom:65 }}>
                 <FlatList
                     data={showAppointment}
                     renderItem={({ item }) => <SingleAgendaView data={item} />}
