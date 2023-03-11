@@ -110,11 +110,11 @@ UpdateAppointment = (props) => {
         setRemark("")
     }
 
-    // useEffect(() => {
-    //     if (token !== null) {
-    //         dispatch(getAppointment(token, moment(date).format('Y-M-D')))
-    //     }
-    // }, [date])
+    useEffect(() => {
+        if (token !== null) {
+            dispatch(getAppointment(token, moment(date).format('Y-M-D')))
+        }
+    }, [date])
 
     return (
         <View style={styles.container}>
@@ -160,7 +160,7 @@ UpdateAppointment = (props) => {
                                             <Text style={styles.updationLabel}>Staff:</Text>
                                         </View>
                                         <View style={styles.updationData}>
-                                            <Text style={styles.updationLabel}>{staffData.name}</Text>
+                                            <Text style={styles.updationLabel}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{staffData.name}</Text>
                                         </View>
                                     </View>
                                     <View style={styles.updationDataInnerContainer}>
@@ -168,7 +168,7 @@ UpdateAppointment = (props) => {
                                             <Text style={styles.updationLabel}>Service:</Text>
                                         </View>
                                         <View style={styles.updationData}>
-                                            <Text style={styles.updationLabel}>{serviceData[0].name}</Text>
+                                            <Text style={styles.updationLabel}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{serviceData[0].name}</Text>
                                         </View>
                                     </View>
                                     <View style={styles.updationDataInnerContainer}>
