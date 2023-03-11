@@ -67,7 +67,7 @@ function AddAppointment(props) {
                 <Calendar
 
                     // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
-                    minDate={'2020-05-10'}
+                    minDate={new Date()}
                     // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
                     maxDate={'2067-05-30'}
                     // Handler which gets executed on day press. Default = undefined
