@@ -47,6 +47,10 @@ UpdateAppointment = (props) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
 
+    const changeStartTime = (value, idx) => {
+        setAppointmentStart(value)
+    }
+
     const toggleModal = (data) => {
         setSelectedService(data)
         setStaffData(data.staff)
@@ -119,6 +123,25 @@ UpdateAppointment = (props) => {
         }
     }, [date])
 
+
+
+    useEffect(() => {
+        if (slots.slot) { slots.slot.push(appointmentStart) }
+    }, [slots])
+
+    useEffect(() => {
+        if (Object.keys(seletedService).length !== 0) {
+            const startTime = moment(appointmentStart, 'h:mm a').format('h:mm A')
+            let endTime = startTime
+            const serviceTime = seletedService?.service[0].duration
+            endTime = moment(endTime, "hh:mm A")
+                .add(serviceTime, 'minutes')
+                .format('LTS');
+            setAppointmentEnd(endTime)
+        }
+
+    }, [seletedService, appointmentStart])
+
     return (
         <View style={styles.container}>
             {isLoading &&
@@ -145,7 +168,7 @@ UpdateAppointment = (props) => {
                                             <Text style={styles.updationLabel}>Staff:</Text>
                                         </View>
                                         <View style={styles.updationData}>
-                                            <Text style={styles.updationLabel}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{staffData.name}</Text>
+                                            <Text style={styles.updationLabel}>&nbsp;&nbsp;&nbsp;{staffData.name}</Text>
                                         </View>
                                     </View>
                                     <View style={styles.updationDataInnerContainer}>
@@ -153,7 +176,7 @@ UpdateAppointment = (props) => {
                                             <Text style={styles.updationLabel}>Service:</Text>
                                         </View>
                                         <View style={styles.updationData}>
-                                            <Text style={styles.updationLabel}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{serviceData[0].name}</Text>
+                                            <Text style={styles.updationLabel}>&nbsp;&nbsp;&nbsp;{serviceData[0].name}</Text>
                                         </View>
                                     </View>
                                     <View style={styles.updationDataInnerContainer}>
@@ -164,28 +187,25 @@ UpdateAppointment = (props) => {
                                             <Picker
                                                 selectedValue={appointmentStart}
                                                 style={styles.dataPicker}
-                                                onValueChange={(itemValue, itemIndex) => { setAppointmentStart(itemValue) }}>
+                                                onValueChange={changeStartTime}>
                                                 {slots.slot ? slots.slot.map((t, idx) => <Picker.Item key={idx} label={t} value={t} />)
                                                     : <Picker.Item label="No slot available for this day" value="No slot available for this day" />
                                                 }
                                             </Picker>
                                         </View>
                                     </View>
-                                    <View style={styles.updationDataInnerContainer}>
+
+
+                                    <View style={[styles.updationDataInnerContainer, { marginBottom: 20 }]}>
                                         <View style={styles.updationLabelContainer}>
                                             <Text style={styles.updationLabel}>End Time:</Text>
                                         </View>
                                         <View style={styles.updationData}>
-                                            <Picker
-                                                selectedValue={appointmentEnd}
-                                                style={styles.dataPicker}
-                                                onValueChange={(itemValue, itemIndex) => { setAppointmentEnd(itemValue) }}>
-                                                {slots?.slot ? slots.slot.map((t, idx) => <Picker.Item key={idx} label={t} value={t} />)
-                                                    : <Picker.Item label="No slot available for this day" value="No slot available for this day" />
-                                                }
-                                            </Picker>
+                                            <Text style={styles.updationLabel}>&nbsp;&nbsp;&nbsp;{moment(appointmentEnd, 'h:mm a').format('h:mm A')}</Text>
                                         </View>
                                     </View>
+
+
                                     <View style={styles.updationDataInnerContainer}>
                                         <View style={styles.updationLabelContainer}>
                                             <Text style={styles.updationLabel}>Status:</Text>
@@ -257,7 +277,7 @@ UpdateAppointment = (props) => {
                                         </Button>
                                     </View> : <Text style={styles.updationLabel}>Please Wait ...</Text>}
                                 {
-                                    error !== "" && <Text style={[styles.updationLabe, { color: "red" }]}>{error}</Text>
+                                    error !== "" && <Text style={{ color: "red" }}>{error}</Text>
                                 }
                             </View>
                         </ScrollView>
