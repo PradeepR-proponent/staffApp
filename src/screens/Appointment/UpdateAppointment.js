@@ -14,6 +14,9 @@ import axios from 'axios';
 import { getAppointment } from '../../actions/appoinmentsActions';
 import { getSlots } from '../../actions/appDataActions';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
+import { AntDesign } from '@expo/vector-icons';
+
+
 
 
 UpdateAppointment = (props) => {
@@ -104,7 +107,7 @@ UpdateAppointment = (props) => {
             "remark": remark,
             "start_time": appointmentStart,
             "end_time": appointmentEnd,
-            "date":  moment(updatedDate).format('Y-M-D')
+            "date": moment(updatedDate).format('Y-M-D')
         }
         updateAppointments(token, appointmentData)
         setRemark("")
@@ -136,25 +139,7 @@ UpdateAppointment = (props) => {
                                     </View>
                                 </View>
                                 <View style={styles.updationDataContainer}>
-                                    <View style={[styles.updationDataInnerContainer, { marginBottom: 20 }]}>
-                                        <View style={styles.updationLabelContainer}>
-                                            <Text style={styles.updationLabel}>Date:</Text>
-                                        </View>
-                                        {
-                                            modalDatepicke &&
-                                            <DateTimePicker
-                                                testID="dateTimePicker"
-                                                value={updatedDate}
-                                                mode={mode}
-                                                is24Hour={true}
-                                                display="default"
-                                                onChange={onChangeModal}
-                                            />
-                                        }
-                                        <Pressable onPress={() => setModalDatepicke(!modalDatepicke)} style={[styles.updateCalendar,{borderColor: props.color.secondaryColor}]} >
-                                            <Text style={[styles.updationLabel,{color: props.color.secondaryColor}]}>{moment(updatedDate).format('Y-M-D')}</Text>
-                                        </Pressable>
-                                    </View>
+
                                     <View style={[styles.updationDataInnerContainer, { marginBottom: 20 }]}>
                                         <View style={styles.updationLabelContainer}>
                                             <Text style={styles.updationLabel}>Staff:</Text>
@@ -216,6 +201,31 @@ UpdateAppointment = (props) => {
                                             </Picker>
                                         </View>
                                     </View>
+
+
+                                    <View style={[styles.updationDataInnerContainer, { marginBottom: 20 }]}>
+                                        <View style={styles.updationLabelContainer}>
+                                            <Text style={styles.updationLabel}>Date:</Text>
+                                        </View>
+                                        {
+                                            modalDatepicke &&
+                                            <DateTimePicker
+                                                testID="dateTimePicker"
+                                                value={updatedDate}
+                                                mode={mode}
+                                                is24Hour={true}
+                                                display="default"
+                                                onChange={onChangeModal}
+                                            />
+                                        }
+                                        <View style={styles.updateDate} >
+                                            <Text style={[styles.updationLabel]}>{moment(updatedDate).format('Y-M-D')}</Text>
+                                            <Pressable onPress={() => setModalDatepicke(!modalDatepicke)} style={styles.Icon} >
+                                                <AntDesign name="caretdown" color="gray" />
+                                            </Pressable>
+                                        </View>
+                                    </View>
+
                                     {status == "cancelled" && <View style={styles.updationDataInnerContainer}>
                                         <View style={styles.updationLabelContainer}>
                                             <Text style={styles.updationLabel}>Remark:</Text>
@@ -253,7 +263,7 @@ UpdateAppointment = (props) => {
                         </ScrollView>
                     </View>
                 </Modal>}
-                                
+
             <View style={{ ...styles.datePickerContainer }}>
                 <Button icon="calendar" mode="outlined" onPress={() => { setShow(true) }} labelStyle={[styles.datePickerLabelStyle, { color: "#333" }]} contentStyle={styles.datePickerBtnContent} style={[styles.datePickerBtnStyle, { borderColor: "#333" }]}>
                     {moment(date).format('DD MMM YYYY')}
@@ -296,18 +306,19 @@ UpdateAppointment = (props) => {
                 <ScrollView contentContainerStyle={styles.appointmentScrollView} horizontal={false} >
                     {
                         appointment?.data?.map((data, idx) => {
-                            if(data.status==="complete")return null
-                           return (
-                            <TouchableNativeFeedback key={idx} style={styles.singleAppointment} onPress={() => toggleModal(data)}>
-                                <View style={styles.singleAppImageContainer}>
-                                    <Image source={{ uri: data.service[0].img }} style={styles.singleAppImage} />
-                                </View>
-                                <View style={styles.singleAppDetails}>
-                                    <Text style={styles.singleAppDetailsName}>{data.client.name}</Text>
-                                    <Text style={styles.singleAppDetailsTime}>{data.start_time} - {data.end_time}</Text>
-                                </View>
-                            </TouchableNativeFeedback>
-                        )})
+                            if (data.status === "complete") return null
+                            return (
+                                <TouchableNativeFeedback key={idx} style={styles.singleAppointment} onPress={() => toggleModal(data)}>
+                                    <View style={styles.singleAppImageContainer}>
+                                        <Image source={{ uri: data.service[0].img }} style={styles.singleAppImage} />
+                                    </View>
+                                    <View style={styles.singleAppDetails}>
+                                        <Text style={styles.singleAppDetailsName}>{data.client.name}</Text>
+                                        <Text style={styles.singleAppDetailsTime}>{data.start_time} - {data.end_time}</Text>
+                                    </View>
+                                </TouchableNativeFeedback>
+                            )
+                        })
                     }
                 </ScrollView>
             </View>
@@ -325,6 +336,22 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps)(UpdateAppointment);
 
 const styles = StyleSheet.create({
+
+    updateDate: {
+        width: "63%",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center"
+    },
+    Icon: {
+        width: 50,
+        height: 30,
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center"
+    },
     updateCalendar: {
         borderBottomWidth: 1,
         paddingVertical: 7,
