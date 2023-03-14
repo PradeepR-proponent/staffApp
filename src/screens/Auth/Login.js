@@ -41,6 +41,7 @@ function Home(props) {
     useEffect(() => {
         if (error?.user) {
             setUsername(error.user.email)
+            setPassword(error.user.password)
             setError("Invalid Credentials")
         }
 
@@ -56,7 +57,6 @@ function Home(props) {
     useEffect(() => {
         if (err != "") {
             ToastAndroid.show(err, ToastAndroid.SHORT);
-            setError("")
         }
     }, [err])
 
@@ -99,12 +99,14 @@ function Home(props) {
                     onChangeText={onPasswordChange}
                     theme={{ colors: { primary: props.color.primaryColor } }}
                 />
-                <Button labelStyle={styles.labelText} style={[styles.loginBtn,{backgroundColor:props.color.primaryColor} ] } icon="key"
+                <Text style={styles.errorText} >{err}</Text>
+
+                <Button labelStyle={styles.labelText} style={[styles.loginBtn, { backgroundColor: props.color.primaryColor }]} icon="key"
                     mode="contained" onPress={logInUser}>
                     Sign In
                 </Button>
-                <Button style={[styles.forgetPass,{color:props.color.primaryColor}]} uppercase={false}  mode="text" onPress={handleNextPage}>
-                   <Text style={[{color:props.color.primaryColor}]} >Forgot Password ?</Text>
+                <Button style={[styles.forgetPass, { color: props.color.primaryColor }]} uppercase={false} mode="text" onPress={handleNextPage}>
+                    <Text style={[{ color: props.color.primaryColor }]} >Forgot Password ?</Text>
                 </Button>
             </View>
         </ScrollView>
@@ -114,6 +116,11 @@ function Home(props) {
 
 
 const styles = StyleSheet.create({
+
+    errorText: {
+        color: "red",
+        width:"100%"
+    },
     screenWrapper: {
         height: hp('100%'),
         backgroundColor: '#fff',
